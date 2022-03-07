@@ -11,11 +11,12 @@ public class Player : MonoBehaviour
     //발사
     public GameObject emmo;
     public float shooTime, delayTime;
-    
 
+    Animator anim;
     // Start is called before the first frame update
     void Start()
     {
+        anim = GetComponent<Animator>();
         rigid = GetComponent<Rigidbody>();
     }
     private void FixedUpdate()
@@ -35,7 +36,7 @@ public class Player : MonoBehaviour
     {
         if (shooTime > delayTime)
         {
-            Instantiate(emmo, GameObject.Find("BulletSpawner").transform.position, Quaternion.Euler(90,0,0), GameObject.Find("BulletSpawner").transform);
+            Instantiate(emmo, GameObject.Find("Player").transform.position, Quaternion.Euler(0,0,0), GameObject.Find("Player").transform);
             shooTime = 0;
         }
         shooTime += Time.deltaTime;
@@ -44,7 +45,19 @@ public class Player : MonoBehaviour
     {
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
-        
+        if (x>0)
+        {
+            Debug.Log("이게 왜 안되");
+            anim.SetBool("IsRIght", true);
+        }else if (x < 0)
+        {
+            anim.SetBool("IsLeft", true);
+        }
+        else
+        {
+            anim.SetBool("IsRight", false);
+            anim.SetBool("IsLeft", false);
+        }
         rigid.velocity = new Vector3(x * speed, 0, z * speed);
     }
 }

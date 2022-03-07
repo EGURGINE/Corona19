@@ -42,7 +42,8 @@ public class Enemy : MonoBehaviour
                 Destroy(gameObject);
                 break;
             case "Bullet":
-                MaxHp -= 1;
+                Debug.Log("¤·¤·");
+                MaxHp -= GameManager.Instance.PlayerDamage;
                 break;
         }
     }

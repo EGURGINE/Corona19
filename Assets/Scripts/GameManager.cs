@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
     public Text Score;
     public float ScoreValue;
 
+    public float PlayerDamage;
+
     private void Awake()
     {
         Instance = this;
@@ -41,7 +43,6 @@ public class GameManager : MonoBehaviour
     }
     void ScoreText()
     {
-        ScoreValue += 0.5f;
         float sc = (float)(Math.Truncate(ScoreValue) / 1);
         Score.text = "Score : " + sc;
     }
