@@ -17,6 +17,15 @@ public class GameManager : MonoBehaviour
 
     public float PlayerDamage;
 
+    public bool IsInvincibility;
+
+    public bool IsLazer;
+
+    public GameObject Lazers;
+
+    //public int MaxEmmoIdx;
+    //public int IsEmmoIdx;
+    public ParticleSystem[] LazerParticles;
     private void Awake()
     {
         Instance = this;
@@ -30,6 +39,7 @@ public class GameManager : MonoBehaviour
     private void FixedUpdate()
     {
         ScoreText();
+        Lazers.transform.position = GameObject.Find("Player").transform.position;
     }
     // Update is called once per frame
     void Update()
@@ -46,4 +56,45 @@ public class GameManager : MonoBehaviour
         float sc = (float)(Math.Truncate(ScoreValue) / 1);
         Score.text = "Score : " + sc;
     }
-}
+    public void Items(int num)
+    {
+        switch (num)
+        {
+            case 1:
+                //MaxEmmoIdx += 5;
+                PlayerDamage++;
+                break;
+            case 2:
+                StartCoroutine(Invincibility());
+                break;
+            case 3:
+                CurHp += 10;
+                break;
+            case 4:
+                CurSick -= 10;
+                break;
+            case 5:
+                LayzerItem();
+                break;
+            case 6:
+                break;
+        }
+    }
+    public IEnumerator Invincibility()
+    {
+        IsInvincibility = true;
+        yield return new WaitForSeconds(3f);
+        IsInvincibility = false;
+    }
+
+    IEnumerator LayzerItem()
+    {
+        LazerParticles[0].Play();
+        LazerParticles[1].Play();
+        LazerParticles[2].Play();
+        IsLazer = true;
+        yield return new WaitForSeconds(3f);
+        IsLazer = false;
+    }
+
+    }

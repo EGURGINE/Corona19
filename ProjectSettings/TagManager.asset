@@ -8,6 +8,10 @@ TagManager:
   - Bullet
   - Enemy
   - Wall
+  - Map
+  - WhiteBlood
+  - RedBlood
+  - Layzer
   layers:
   - Default
   - TransparentFX

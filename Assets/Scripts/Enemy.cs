@@ -34,11 +34,15 @@ public class Enemy : MonoBehaviour
         switch (other.tag)
         {
             case "Player":
-                GameManager.Instance.CurHp -= 10;
-                Destroy(gameObject);
+                if (GameManager.Instance.IsInvincibility == false)
+                {
+                    GameManager.Instance.CurHp -= 10;
+                    Destroy(gameObject);
+                    GameManager.Instance.Items(2);
+                }
                 break;
             case "ImSick":
-                GameManager.Instance.CurSick -= 15;
+                GameManager.Instance.CurSick += 15;
                 Destroy(gameObject);
                 break;
             case "Bullet":

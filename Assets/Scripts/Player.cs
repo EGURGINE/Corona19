@@ -5,23 +5,27 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    //이동
     Rigidbody rigid;
     public float speed;
-    //발사
+
     public GameObject emmo;
     public float shooTime, delayTime;
 
+    Material ma;
     Animator anim;
+
+    public Material[] MetallicMaterial;
     // Start is called before the first frame update
     void Start()
     {
+        ma = GetComponent<Material>();
         anim = GetComponent<Animator>();
         rigid = GetComponent<Rigidbody>();
+        
     }
     private void FixedUpdate()
     {
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space)&&GameManager.Instance.IsLazer == false/*&&GameManager.Instance.IsEmmoIdx<GameManager.Instance.MaxEmmoIdx*/)
         {
             Fire();
         }
@@ -36,7 +40,8 @@ public class Player : MonoBehaviour
     {
         if (shooTime > delayTime)
         {
-            Instantiate(emmo, GameObject.Find("Player").transform.position, Quaternion.Euler(0,0,0), GameObject.Find("Player").transform);
+            Instantiate(emmo, GameObject.Find("Player").transform.position, Quaternion.Euler(0,0,0));
+            //GameManager.Instance.IsEmmoIdx++;
             shooTime = 0;
         }
         shooTime += Time.deltaTime;
@@ -45,12 +50,13 @@ public class Player : MonoBehaviour
     {
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
-        if (x>0)
+        if (Input.GetKey(KeyCode.D))
         {
-            Debug.Log("이게 왜 안되");
-            anim.SetBool("IsRIght", true);
-        }else if (x < 0)
+            Debug.Log("오른손");
+            anim.SetBool("IsRight", true);
+        }else if (Input.GetKey(KeyCode.A))
         {
+            Debug.Log("왼손");
             anim.SetBool("IsLeft", true);
         }
         else
@@ -59,5 +65,11 @@ public class Player : MonoBehaviour
             anim.SetBool("IsLeft", false);
         }
         rigid.velocity = new Vector3(x * speed, 0, z * speed);
+    }
+    IEnumerator Invincibility()
+    {
+        GameManager.Instance.IsInvincibility = true;
+        yield return new WaitForSeconds(1.5f);
+        GameManager.Instance.IsInvincibility = false;
     }
 }
