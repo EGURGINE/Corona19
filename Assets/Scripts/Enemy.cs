@@ -1,54 +1,55 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public abstract class Enemy : MonoBehaviour
 {
-    Rigidbody rigid;
-    public float speed;
+    [SerializeField] protected Transform firePos;
 
-    public float MaxHp;
+    [SerializeField] private GameObject hitEffect;
+    [SerializeField] private GameObject dieEffect;
+    [SerializeField] protected Bullet bulletObj;
 
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] protected float spd;
+    [SerializeField] protected float hp;
+    public float atkDmag;
+
+    [SerializeField] protected float bulletSpd;
+    [SerializeField] protected float bulletIntervar;
+
+    protected Rigidbody rb;
+
+    protected virtual void Start()
     {
-        rigid = GetComponent<Rigidbody>();
-        rigid.velocity = Vector3.back * speed;
+        rb = GetComponent<Rigidbody>();
+        InvokeRepeating("Attack", 1f, bulletIntervar);
+        Move();
     }
 
-    // Update is called once per frame
-    void Update()
+    protected abstract void Attack();
+
+    private void Move()
     {
-        Die();
+        rb.velocity = Vector3.back * spd;
     }
-    void Die()
-    {
-        if (MaxHp<=0)
-        {
-            GameManager.Instance.ScoreValue += 100;
-            Destroy(gameObject);
-        }
-    }
+
     private void OnTriggerEnter(Collider other)
     {
-        switch (other.tag)
+        if (other.CompareTag("Bullet"))
         {
-            case "Player":
-                if (GameManager.Instance.IsInvincibility == false)
-                {
-                    GameManager.Instance.CurHp -= 10;
-                    Destroy(gameObject);
-                    GameManager.Instance.Items(2);
-                }
-                break;
-            case "ImSick":
-                GameManager.Instance.CurSick += 15;
-                Destroy(gameObject);
-                break;
-            case "Bullet":
-                Debug.Log("¤·¤·");
-                MaxHp -= GameManager.Instance.PlayerDamage;
-                break;
+            Destroy(other.gameObject);
+            Instantiate(hitEffect).transform.position = other.transform.position;
+
+            hp = Mathf.Max(0, hp - other.GetComponent<Bullet>().dmg);
+            if (hp == 0)
+            {
+                OnDie();
+            }
         }
+    }
+
+    public void OnDie()
+    {
+        Instantiate(dieEffect).transform.position = transform.position;
+        Destroy(gameObject);
     }
 }

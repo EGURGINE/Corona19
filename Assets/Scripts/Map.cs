@@ -4,30 +4,19 @@ using UnityEngine;
 
 public class Map : MonoBehaviour
 {
-    Rigidbody rigid;
-    public float speed;
+    public float spd;
+    [HideInInspector] public bool isScroll;
 
-    public Vector3 offset;
-    private void Awake()
+    private void Start()
     {
-        rigid = GetComponent<Rigidbody>();
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        rigid.velocity = Vector3.back*speed;
+        isScroll = true;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        this.transform.Rotate(0, 0, 0.5f);
-    }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Map"))
+        if (isScroll)
         {
-            this.transform.position = offset;
+            transform.Translate(Vector3.back * spd * Time.deltaTime);
         }
     }
 }

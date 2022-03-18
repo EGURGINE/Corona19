@@ -5,11 +5,16 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
+    private const int ROTATION_SPD = 80;
+
+
     Rigidbody rigid;
     public float speed;
 
     public GameObject emmo;
     public float shooTime, delayTime;
+
+    public float rotationZ;
 
     Material ma;
     Animator anim;
@@ -50,20 +55,22 @@ public class Player : MonoBehaviour
     {
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
-        if (Input.GetKey(KeyCode.D))
+
+        if (Mathf.Approximately(x, 0))
         {
-            Debug.Log("¿À¸¥¼Õ");
-            anim.SetBool("IsRight", true);
-        }else if (Input.GetKey(KeyCode.A))
-        {
-            Debug.Log("¿Þ¼Õ");
-            anim.SetBool("IsLeft", true);
+            rotationZ = Mathf.Lerp(rotationZ, 0, Time.deltaTime * 2f);
         }
         else
         {
-            anim.SetBool("IsRight", false);
-            anim.SetBool("IsLeft", false);
+            rotationZ += -x * ROTATION_SPD * Time.deltaTime;
+            rotationZ = Mathf.Clamp(rotationZ, -50, 50);
         }
+
+        transform.localEulerAngles = new Vector3(
+            transform.localEulerAngles.x,
+            transform.localEulerAngles.y,
+            rotationZ);
+
         rigid.velocity = new Vector3(x * speed, 0, z * speed);
     }
     IEnumerator Invincibility()

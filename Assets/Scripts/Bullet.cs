@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    public float dmg;
+
     public float speed;
     // Start is called before the first frame update
 

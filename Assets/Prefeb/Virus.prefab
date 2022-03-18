@@ -1086,10 +1086,10 @@ GameObject:
   - component: {fileID: 7137332916529728997}
   - component: {fileID: 7137332916529728998}
   - component: {fileID: 7137332916529728999}
-  - component: {fileID: 7137332916529729016}
   - component: {fileID: 7137332916529729017}
+  - component: {fileID: 8786712211325189478}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: Virus
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1110,6 +1110,7 @@ Transform:
   - {fileID: 7137332915979455846}
   - {fileID: 7137332916810973427}
   - {fileID: 7137332916411138603}
+  - {fileID: 2073653725516247840}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1175,20 +1176,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7137332916529729016
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7137332916529729018}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa37c390fea9db044814db145d6461c7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 15
-  MaxHp: 3
 --- !u!54 &7137332916529729017
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1205,6 +1192,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &8786712211325189478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7137332916529729018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b55e1684d8849054fbb2e4b420807410, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firePos: {fileID: 2073653725516247840}
+  hitEffect: {fileID: 7529320149901971646, guid: ede17418456b0524ea2e6740c2d48c33, type: 3}
+  dieEffect: {fileID: 7529320149901971646, guid: ede17418456b0524ea2e6740c2d48c33, type: 3}
+  bulletObj: {fileID: 7771409371907957946, guid: 8f1db0960e70a1a448e2eb1566585dac, type: 3}
+  spd: 5
+  hp: 10
+  atkDmag: 10
+  bulletSpd: 1
+  bulletIntervar: 1
 --- !u!1 &7137332916575872027
 GameObject:
   m_ObjectHideFlags: 0
@@ -1563,3 +1571,33 @@ Transform:
   m_Father: {fileID: 7137332916529728996}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 45, z: 0}
+--- !u!1 &8643601150583156737
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2073653725516247840}
+  m_Layer: 0
+  m_Name: FirePos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2073653725516247840
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8643601150583156737}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7137332916529728996}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
