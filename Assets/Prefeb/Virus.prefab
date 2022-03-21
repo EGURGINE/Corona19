@@ -1204,15 +1204,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b55e1684d8849054fbb2e4b420807410, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spd: 20
+  hp: 100
   firePos: {fileID: 2073653725516247840}
-  hitEffect: {fileID: 7529320149901971646, guid: ede17418456b0524ea2e6740c2d48c33, type: 3}
-  dieEffect: {fileID: 7529320149901971646, guid: ede17418456b0524ea2e6740c2d48c33, type: 3}
   bulletObj: {fileID: 7771409371907957946, guid: 8f1db0960e70a1a448e2eb1566585dac, type: 3}
-  spd: 5
-  hp: 10
+  bulletSpd: 50
+  bulletIntervar: 2
+  isUnlimitShotcnt: 0
+  shotCnt: 0
+  continiousShotInterval: 0.5
+  wayCnt: 3
+  hitEffect: {fileID: 6062121439478939667, guid: 6c3af78db82333f4598447ad36dd7558, type: 3}
+  dieEffect: {fileID: 3500582702653700458, guid: 82ea4550300fc4743aa622136e671d5d, type: 3}
   atkDmag: 10
-  bulletSpd: 1
-  bulletIntervar: 1
 --- !u!1 &7137332916575872027
 GameObject:
   m_ObjectHideFlags: 0

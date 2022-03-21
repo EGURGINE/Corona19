@@ -3,25 +3,39 @@ using UnityEngine;
 
 public abstract class Enemy : MonoBehaviour
 {
-    [SerializeField] protected Transform firePos;
-
-    [SerializeField] private GameObject hitEffect;
-    [SerializeField] private GameObject dieEffect;
-    [SerializeField] protected Bullet bulletObj;
-
+    [Header("일반 객체 속성")]
     [SerializeField] protected float spd;
     [SerializeField] protected float hp;
-    public float atkDmag;
 
+    [Header("공격 속성")]
+    [SerializeField] protected Transform firePos;
+    [SerializeField] protected Bullet bulletObj;
     [SerializeField] protected float bulletSpd;
     [SerializeField] protected float bulletIntervar;
+
+    [Header("연속 곡격 속성")]
+    [SerializeField] private bool isUnlimitShotcnt;
+    [SerializeField] private int shotCnt;
+    [SerializeField] private float continiousShotInterval;
+
+    [Header("방사형 공격 속성")]
+    [SerializeField] private int wayCnt;
+
+    [Header("이펙트")]
+    [SerializeField] private GameObject hitEffect;
+    [SerializeField] private GameObject dieEffect;
+
+    public float atkDmag;
+
 
     protected Rigidbody rb;
 
     protected virtual void Start()
     {
         rb = GetComponent<Rigidbody>();
-        InvokeRepeating("Attack", 1f, bulletIntervar);
+        if (isUnlimitShotcnt) Invoke("Attack", 1f);
+        else InvokeRepeating("Attack", 1f, bulletIntervar);
+
         Move();
     }
 
@@ -34,7 +48,7 @@ public abstract class Enemy : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Bullet"))
+        if (other.CompareTag("PlayerBullet"))
         {
             Destroy(other.gameObject);
             Instantiate(hitEffect).transform.position = other.transform.position;

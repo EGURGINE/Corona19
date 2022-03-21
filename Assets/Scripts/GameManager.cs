@@ -26,9 +26,31 @@ public class GameManager : MonoBehaviour
     //public int MaxEmmoIdx;
     //public int IsEmmoIdx;
     public ParticleSystem[] LazerParticles;
+    [SerializeField] private int stageNum;
+
+    public float curHp
+    {
+        get => curHp;
+        set
+        {
+            curHp = value;
+            HpSlider.value = CurHp / MaxHp;
+        }
+    }
+    public float curSick
+    {
+        get => curSick;
+        set
+        {
+            curSick = value;
+            SickSlider.value = CurSick / MaxSick;
+
+        }
+    }
     private void Awake()
     {
         Instance = this;
+        stageNum = 1;
     }
     // Start is called before the first frame update
     void Start()
@@ -44,12 +66,6 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        BarManager();
-    }
-    void BarManager()
-    {
-        HpSlider.value = CurHp / MaxHp;
-        SickSlider.value = CurSick / MaxSick;
     }
     void ScoreText()
     {
@@ -96,5 +112,9 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(3f);
         IsLazer = false;
     }
-
+    public void GameOver()
+    {
+        // ·©Å·Ã¢ ¶ç¿ì±â
     }
+
+}

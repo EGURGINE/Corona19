@@ -1,0 +1,7 @@
+0,virus,1
+0,virus,2
+0,virus,3
+0,virus,4
+0,virus,5
+1,virus,3
+2,virus,3
