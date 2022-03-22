@@ -8,12 +8,12 @@ public class Bullet : MonoBehaviour
 
     private Rigidbody rb;
 
-    void Start()
+    private void Start()
     {
-        rb.GetComponent<Rigidbody>();
-        rb.velocity = dir * spd;
-    }
+        rb = GetComponent<Rigidbody>();
+        rb.velocity =  dir * spd;
 
+    }
     // Update is called once per frame
     public void SetBullet(float dmg, Vector3 dir, float spd)
     {

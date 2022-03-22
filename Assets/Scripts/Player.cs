@@ -1,8 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-
 [System.Serializable]
 
 public struct MoveRange
@@ -39,11 +36,10 @@ public class Player : MonoBehaviour
     public float rotationZ;
     private bool isAttacked;
 
-    private bool isTopViewCam;
-
     [Header("발사 속도")]
     public GameObject emmo;
     public float shooTime, delayTime;
+
 
     // Start is called before the first frame update
     void Start()
@@ -58,9 +54,8 @@ public class Player : MonoBehaviour
          if (Input.GetKey(KeyCode.Space) && GameManager.Instance.IsLazer == false && Time.time > bulletTime/*&&GameManager.Instance.IsEmmoIdx<GameManager.Instance.MaxEmmoIdx*/)
         {
             bulletTime = Time.time + bulletInterval;
-
             Bullet bullet = Instantiate(bulletObj, firePos.position, bulletObj.transform.rotation);
-            bullet.SetBullet(atkDmg, bulletObj.dir, bulletSpd);
+            bullet.SetBullet(atkDmg, Vector3.forward, bulletSpd);
         }
         #endregion
         #region 회전
@@ -93,18 +88,32 @@ public class Player : MonoBehaviour
 
         #endregion
     }
-    
+   
     private void OnTriggerEnter(Collider other)
     {
         if (isAttacked) return;
 
         if (other.CompareTag("EnemyBullet"))
         {
-            SoundManager.Instance.PlaySound(Sound_Effect.HIT);
+            //SoundManager.Instance.PlaySound(Sound_Effect.HIT);
             Destroy(other.gameObject);
             Instantiate(hitEffect).transform.position = other.transform.position;
 
             GameManager.Instance.CurHp = Mathf.Max(0, GameManager.Instance.CurHp - other.GetComponent<Bullet>().dmg);
+            if (Mathf.Approximately(GameManager.Instance.CurHp, 0))
+            {
+                OnDie();
+            }
+            else
+            {
+                OnHit();
+            }
+        }
+        else if (other.CompareTag("Enemy"))
+        {
+            Instantiate(hitEffect).transform.position = other.transform.position;
+
+            GameManager.Instance.CurHp = Mathf.Max(0, GameManager.Instance.CurHp - other.GetComponent<Enemy>().atkDmag/2f);
             if (Mathf.Approximately(GameManager.Instance.CurHp, 0))
             {
                 OnDie();
@@ -126,14 +135,23 @@ public class Player : MonoBehaviour
 
     private IEnumerator HitCoroutine()
     {
-        MainCamera.Instance.DamagedShake();
+        //MainCamera.Instance.DamagedShake();
 
         isAttacked = true;
         hitShield.SetActive(true);
         yield return new WaitForSeconds(1f);
 
         hitShield.SetActive(false);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.1f);
+        hitShield.SetActive(true);
+        yield return new WaitForSeconds(0.1f);
+        hitShield.SetActive(false);
+        yield return new WaitForSeconds(0.1f);
+        hitShield.SetActive(true);
+        yield return new WaitForSeconds(0.1f);
+        hitShield.SetActive(false);
+        yield return new WaitForSeconds(0.1f);
+
         isAttacked = false;
     }
 

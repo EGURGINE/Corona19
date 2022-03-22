@@ -5,26 +5,27 @@ using UnityEngine;
 public class RedBlood : MonoBehaviour
 {
     public float hp;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
         if (hp<=0)
         {
-            GameManager.Instance.CurSick += 10;
-            Destroy(gameObject);
+            Die();
         }
+    }
+    public void Die()
+    {
+        GameManager.Instance.CurSick += 10;
+        Destroy(gameObject);
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Bullet"))
+        if (other.CompareTag("PlayerBullet"))
         {
-            hp -= GameManager.Instance.PlayerDamage;
+            hp -= other.GetComponent<Bullet>().dmg;
+        }
+        else if (other.CompareTag("Player"))
+        {
+            Die();
         }
     }
 }

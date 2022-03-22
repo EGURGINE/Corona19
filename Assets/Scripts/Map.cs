@@ -17,6 +17,8 @@ public class Map : MonoBehaviour
         if (isScroll)
         {
             transform.Translate(Vector3.back * spd * Time.deltaTime);
+            transform.Rotate(0, 0, 1);
         }
+
     }
 }

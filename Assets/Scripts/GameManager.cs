@@ -27,26 +27,8 @@ public class GameManager : MonoBehaviour
     //public int IsEmmoIdx;
     public ParticleSystem[] LazerParticles;
     [SerializeField] private int stageNum;
+    [SerializeField] private SpawnManager spawnManager;
 
-    public float curHp
-    {
-        get => curHp;
-        set
-        {
-            curHp = value;
-            HpSlider.value = CurHp / MaxHp;
-        }
-    }
-    public float curSick
-    {
-        get => curSick;
-        set
-        {
-            curSick = value;
-            SickSlider.value = CurSick / MaxSick;
-
-        }
-    }
     private void Awake()
     {
         Instance = this;
@@ -55,7 +37,13 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        CurSick = stageNum == 1 ? 10 : 30;
+
+        if (stageNum == 1)
+        {
+            Score.text = "0";
+        }
+        ReadEnemyData(stageNum);
     }
 
     private void FixedUpdate()
@@ -66,12 +54,21 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        SliderManager();
     }
     void ScoreText()
     {
         float sc = (float)(Math.Truncate(ScoreValue) / 1);
         Score.text = "Score : " + sc;
     }
+
+    void SliderManager()
+    {
+        HpSlider.value = CurHp / MaxHp;
+        SickSlider.value = CurSick / MaxSick;
+
+    }
+
     public void Items(int num)
     {
         switch (num)
@@ -112,6 +109,13 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(3f);
         IsLazer = false;
     }
+
+    private void ReadEnemyData(int stageNum)
+    {
+        spawnManager.ReadEnemyData(
+            Resources.Load<TextAsset>($"Stage{stageNum}_EnemyData").text);
+    }
+
     public void GameOver()
     {
         // ·©Å·Ã¢ ¶ç¿ì±â

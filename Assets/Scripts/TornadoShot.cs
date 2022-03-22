@@ -6,7 +6,7 @@ public class TornadoShot : MonoBehaviour
 {
     public float cnt;
     public float a;
-    public GameObject Emmo;
+    public Bullet Emmo;
     public Transform pos;
     // Start is called before the first frame update
     void Start()
@@ -17,10 +17,11 @@ public class TornadoShot : MonoBehaviour
     {
         while (true)
         {
-            GameObject bullet = Instantiate(Emmo);
+            Bullet bullet = Instantiate(Emmo);
             bullet.transform.position = pos.position;
             bullet.transform.rotation = pos.rotation;
             pos.Rotate(Vector3.up * a);
+            bullet.SetBullet(0,pos.forward, 1);
             yield return new WaitForSeconds(cnt);
         }
     }

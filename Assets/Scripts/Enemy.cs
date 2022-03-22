@@ -61,9 +61,47 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
+    public void VacteriaAttack()
+    {
+        StartCoroutine(spdCoroutine());
+    }
+    
+    public void WayShot()
+    {
+        firePos.LookAt(GameObject.Find("Player").transform.position);
+
+        Quaternion firstRotation = firePos.rotation;
+
+        firePos.Rotate(Vector3.up * -5 * (wayCnt / 2));
+
+        for (int i = 0; i <= wayCnt; i++)
+        {
+            Bullet bullet = Instantiate(bulletObj);
+            bullet.transform.position = firePos.position;
+            bullet.SetBullet(atkDmag, firePos.forward, bulletSpd);
+            firePos.Rotate(Vector3.up * 5);
+        }
+
+        firePos.rotation = firstRotation;
+    }
+    IEnumerator spdCoroutine()
+    {
+        spd += 10;
+        yield return new WaitForSeconds(1f);
+        spd -= 10;
+    } 
+
     public void OnDie()
     {
         Instantiate(dieEffect).transform.position = transform.position;
+        switch (gameObject.name)
+        {
+            case "Bacteria": GameManager.Instance.ScoreValue += 50; break;
+            case "Virus": GameManager.Instance.ScoreValue += 150; break;
+
+            default:
+                break;
+        }
         Destroy(gameObject);
     }
 }
