@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -48,13 +49,17 @@ public class GameManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        ScoreText();
         Lazers.transform.position = GameObject.Find("Player").transform.position;
     }
     // Update is called once per frame
     void Update()
     {
+        ScoreText();
         SliderManager();
+        if (Input.GetKey(KeyCode.P))
+        {
+            Invoke("GameOver", 3f);
+        }
     }
     void ScoreText()
     {
@@ -68,7 +73,6 @@ public class GameManager : MonoBehaviour
         SickSlider.value = CurSick / MaxSick;
 
     }
-
     public void Items(int num)
     {
         switch (num)
@@ -118,6 +122,7 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        SceneManager.LoadScene(2);
         // ·©Å·Ã¢ ¶ç¿ì±â
     }
 

@@ -15,8 +15,6 @@ public abstract class Enemy : MonoBehaviour
 
     [Header("연속 곡격 속성")]
     [SerializeField] private bool isUnlimitShotcnt;
-    [SerializeField] private int shotCnt;
-    [SerializeField] private float continiousShotInterval;
 
     [Header("방사형 공격 속성")]
     [SerializeField] private int wayCnt;
@@ -25,6 +23,11 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] private GameObject hitEffect;
     [SerializeField] private GameObject dieEffect;
 
+    [Header("암세포 공격 파티클")]
+    [SerializeField] private ParticleSystem pcy;
+
+    [Header("세균 자식들")]
+    [SerializeField] private GameObject GremChild;
     public float atkDmag;
 
 
@@ -61,11 +64,25 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
+    public void CancerAttack()
+    {
+        pcy.Play();
+        GameManager.Instance.CurSick += 3;
+    }
     public void VacteriaAttack()
     {
         StartCoroutine(spdCoroutine());
     }
-    
+
+    public void GermAttack()
+    {
+        Vector3 LeftPos = new Vector3 (transform.position.x - 5,transform.position.y,transform.position.z);
+        Vector3 RightPos = new Vector3(transform.position.x + 5, transform.position.y, transform.position.z);
+
+        Instantiate(GremChild).transform.position = LeftPos;
+        Instantiate(GremChild).transform.position = RightPos;
+    }
+
     public void WayShot()
     {
         firePos.LookAt(GameObject.Find("Player").transform.position);
@@ -96,8 +113,10 @@ public abstract class Enemy : MonoBehaviour
         Instantiate(dieEffect).transform.position = transform.position;
         switch (gameObject.name)
         {
-            case "Bacteria": GameManager.Instance.ScoreValue += 50; break;
-            case "Virus": GameManager.Instance.ScoreValue += 150; break;
+            case "Bacteria(Clone)": GameManager.Instance.ScoreValue += 50; Debug.Log("Bacteria"); break;
+            case "Virus(Clone)": GameManager.Instance.ScoreValue += 150; Debug.Log("Virus");  break;
+            case "Cancer(Clone)": GameManager.Instance.ScoreValue += 300; Debug.Log("Cancer"); break;
+
 
             default:
                 break;

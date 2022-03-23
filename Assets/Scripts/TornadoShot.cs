@@ -21,7 +21,7 @@ public class TornadoShot : MonoBehaviour
             bullet.transform.position = pos.position;
             bullet.transform.rotation = pos.rotation;
             pos.Rotate(Vector3.up * a);
-            bullet.SetBullet(0,pos.forward, 1);
+            bullet.SetBullet(0,pos.forward, 100);
             yield return new WaitForSeconds(cnt);
         }
     }

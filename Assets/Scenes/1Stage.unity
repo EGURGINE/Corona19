@@ -229,7 +229,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bacteria: {fileID: 8254761917495762141, guid: 4fe059ee592b2b840a1142c8a21f650b, type: 3}
   virus: {fileID: 7137332916529729018, guid: 359e7a80df67bc44189318923c22bf57, type: 3}
-  cancer: {fileID: 7137332916529729018, guid: 359e7a80df67bc44189318923c22bf57, type: 3}
+  cancer: {fileID: 1409719395478622327, guid: 7344595e222dc1c4f8b91c25a85485c4, type: 3}
+  germ: {fileID: 3422529849580118543, guid: b1a4efd6db7647a46aedcc0aba02f26f, type: 3}
   spawnPoints:
   - {fileID: 1312555067}
   - {fileID: 160159300}

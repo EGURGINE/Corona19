@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class WhiteBlood : MonoBehaviour
 {
-    float Hp;
-    GameObject[] items;
+    [SerializeField] private float Hp;
+    [SerializeField] private GameObject[] items;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,8 +23,9 @@ public class WhiteBlood : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Bullet"))
+        if (other.CompareTag("PlayerBullet"))
         {
+            Destroy(other.gameObject);
             Hp -= GameManager.Instance.PlayerDamage;
         }
     }

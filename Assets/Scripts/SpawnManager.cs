@@ -7,7 +7,8 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private GameObject bacteria;
     [SerializeField] private GameObject virus;
     [SerializeField] private GameObject cancer;
-
+    [SerializeField] private GameObject germ;
+    
     [SerializeField] List<Transform> spawnPoints;
     private List<EnemyData> enemyDatas = new List<EnemyData>();
 
@@ -74,6 +75,7 @@ public class SpawnManager : MonoBehaviour
             case "bacteria": Instantiate(bacteria, spawnPos, bacteria.transform.rotation); break;
             case "virus": Instantiate(virus, spawnPos, virus.transform.rotation); break;
             case "cancer": Instantiate(cancer, spawnPos, cancer.transform.rotation); break;
+            case "germ": Instantiate(germ, spawnPos, germ.transform.rotation); break;
             default: Debug.Assert(false); break;
         }
     }
