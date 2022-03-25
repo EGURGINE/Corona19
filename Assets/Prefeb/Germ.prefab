@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spd: 10
-  hp: 50
+  hp: 100
   firePos: {fileID: 3422529849580118539}
   bulletObj: {fileID: 7771409371907957946, guid: 8f1db0960e70a1a448e2eb1566585dac, type: 3}
   bulletSpd: 1

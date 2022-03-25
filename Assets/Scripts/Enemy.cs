@@ -62,6 +62,15 @@ public abstract class Enemy : MonoBehaviour
                 OnDie();
             }
         }
+        else if (other.CompareTag("Layzer"))
+        {
+            Instantiate(hitEffect).transform.position = other.transform.position;
+            hp = Mathf.Max(0, hp - 500);
+            if (hp == 0)
+            {
+                OnDie();
+            }
+        }
     }
 
     public void CancerAttack()

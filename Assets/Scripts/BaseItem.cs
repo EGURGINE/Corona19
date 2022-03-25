@@ -5,10 +5,12 @@ using UnityEngine;
 public class BaseItem : MonoBehaviour
 {
     public int ItemNum;
+    Rigidbody rb;
     // Start is called before the first frame update
     void Start()
     {
-        
+        rb = GetComponent<Rigidbody>();
+        rb.velocity = Vector3.back * 10;
     }
 
     // Update is called once per frame
@@ -20,28 +22,8 @@ public class BaseItem : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            switch (ItemNum)
-            {
-                case 1:
-                    GameManager.Instance.Items(1);
-                    break;
-                case 2:
-                    GameManager.Instance.Items(2);
-                    break;
-                case 3:
-                    GameManager.Instance.Items(3);
-                    break;
-                case 4:
-                    GameManager.Instance.Items(4);
-                    break;
-                case 5:
-                    GameManager.Instance.Items(5);
-                    break;
-                case 6:
-                    GameManager.Instance.Items(6);
-                    break;
-            }
-            Destroy(gameObject);
+            GameManager.Instance.Items(ItemNum);
+           Destroy(gameObject);
         }
     }
 }

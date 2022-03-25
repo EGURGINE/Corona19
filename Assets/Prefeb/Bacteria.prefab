@@ -59,7 +59,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9d53bd451b1cb0246a2dfd9687ce543e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -140,7 +140,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9d53bd451b1cb0246a2dfd9687ce543e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -221,7 +221,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9d53bd451b1cb0246a2dfd9687ce543e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -302,7 +302,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9d53bd451b1cb0246a2dfd9687ce543e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -383,7 +383,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9d53bd451b1cb0246a2dfd9687ce543e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -475,18 +475,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6351091df46634a43b9c769a0f24fdaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spd: 50
+  spd: 30
   hp: 100
   firePos: {fileID: 8254761917495762143}
   bulletObj: {fileID: 7771409371907957946, guid: 8f1db0960e70a1a448e2eb1566585dac, type: 3}
   bulletSpd: 1
   bulletIntervar: 1
   isUnlimitShotcnt: 0
-  shotCnt: 1
-  continiousShotInterval: 0
   wayCnt: 0
   hitEffect: {fileID: 6062121439478939667, guid: 6c3af78db82333f4598447ad36dd7558, type: 3}
   dieEffect: {fileID: 3500582702653700458, guid: 82ea4550300fc4743aa622136e671d5d, type: 3}
+  pcy: {fileID: 0}
+  GremChild: {fileID: 0}
   atkDmag: 15
 --- !u!136 &4211691000021456402
 CapsuleCollider:

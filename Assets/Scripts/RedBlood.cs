@@ -5,6 +5,12 @@ using UnityEngine;
 public class RedBlood : MonoBehaviour
 {
     public float hp;
+    Rigidbody rb;
+    private void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+        rb.velocity = Vector3.back*10;
+    }
     void Update()
     {
         if (hp<=0)

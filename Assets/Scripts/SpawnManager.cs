@@ -52,7 +52,7 @@ public class SpawnManager : MonoBehaviour
 
     private void Update()
     {
-        if (Time.time >= spawnTime && isReadEnemyData && isEndEnemyData == false)
+        if (Time.time >= spawnTime && isReadEnemyData && isEndEnemyData == false && GameManager.Instance.isStopSpawn==false)
         {
             SpawnEnemy();
             dataIdx++;
