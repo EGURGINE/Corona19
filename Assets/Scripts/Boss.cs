@@ -2,17 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Boss : MonoBehaviour
+public class Boss : Enemy
 {
-    // Start is called before the first frame update
-    void Start()
+    protected override void Attack()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        BossAttack(Random.Range(1, 4));
     }
 }

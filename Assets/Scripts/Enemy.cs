@@ -30,6 +30,11 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] private GameObject GremChild;
     public float atkDmag;
 
+    [Header("º¸½º")]
+    [SerializeField] protected Bullet BossBulletObj;
+    [SerializeField] protected GameObject Skill_1;
+    private GameObject RanPos;
+
 
     protected Rigidbody rb;
 
@@ -85,7 +90,7 @@ public abstract class Enemy : MonoBehaviour
 
     public void GermAttack()
     {
-        Vector3 LeftPos = new Vector3 (transform.position.x - 5,transform.position.y,transform.position.z);
+        Vector3 LeftPos = new Vector3(transform.position.x - 5, transform.position.y, transform.position.z);
         Vector3 RightPos = new Vector3(transform.position.x + 5, transform.position.y, transform.position.z);
 
         Instantiate(GremChild).transform.position = LeftPos;
@@ -115,15 +120,49 @@ public abstract class Enemy : MonoBehaviour
         spd += 10;
         yield return new WaitForSeconds(1f);
         spd -= 10;
-    } 
+    }
 
+    public void BossAttack(int num)
+    {
+        switch (num)
+        {
+            case 1:
+                firePos.LookAt(GameObject.Find("Player").transform.position);
+                Bullet bullet = Instantiate(BossBulletObj);
+                bullet.transform.position = firePos.position;
+                bullet.SetBullet(atkDmag, firePos.forward, bulletSpd);
+                break;
+            case 2:
+                for (int i = 0; i < 3; i++)
+                {
+                    StartCoroutine(BossSkil_1());
+                }
+                break;
+            case 3:
+
+                break;
+        }
+    }
+
+    IEnumerator BossSkil_1()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            yield return new WaitForSeconds(1f);
+            float pX = GameObject.Find("Player").transform.position.x;
+            float pZ = GameObject.Find("Player").transform.position.z;
+            RanPos.transform.position = new Vector3(pX, GameObject.Find("Player").transform.position.y, pZ);
+            Transform pPos = RanPos.transform;
+            Instantiate(Skill_1, pPos);
+        }
+    }
     public void OnDie()
     {
         Instantiate(dieEffect).transform.position = transform.position;
         switch (gameObject.name)
         {
             case "Bacteria(Clone)": GameManager.Instance.ScoreValue += 50; Debug.Log("Bacteria"); break;
-            case "Virus(Clone)": GameManager.Instance.ScoreValue += 150; Debug.Log("Virus");  break;
+            case "Virus(Clone)": GameManager.Instance.ScoreValue += 150; Debug.Log("Virus"); break;
             case "Cancer(Clone)": GameManager.Instance.ScoreValue += 300; Debug.Log("Cancer"); break;
 
 

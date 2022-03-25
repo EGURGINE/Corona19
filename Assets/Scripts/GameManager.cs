@@ -41,6 +41,7 @@ public class GameManager : MonoBehaviour
     [Header("º¸½º")]
     [SerializeField] private GameObject[] Boss;
     [SerializeField] private Transform BossPos;
+    public GameObject BossBullet;
     public bool isBoos;
     public bool isStopSpawn;
 
