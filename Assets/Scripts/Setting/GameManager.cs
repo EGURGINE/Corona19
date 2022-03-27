@@ -34,14 +34,14 @@ public class GameManager : MonoBehaviour
 
     public GameObject Lazers;
     public ParticleSystem[] LazerParticles;
-    [SerializeField] private int stageNum;
+    public int stageNum;
     [SerializeField] private SpawnManager spawnManager;
     [SerializeField] private GameObject Pets;
 
     [Header("보스")]
     [SerializeField] private GameObject[] Boss;
     [SerializeField] private Transform BossPos;
-    public GameObject BossBullet;
+    public float BossSpawnScore;
     public bool isBoos;
     public bool isStopSpawn;
 
@@ -67,7 +67,10 @@ public class GameManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Lazers.transform.position = GameObject.Find("Player").transform.position;
+        if (GameObject.Find("Player"))
+        {
+            Lazers.transform.position = GameObject.Find("Player").transform.position;
+        }
     }
     // Update is called once per frame
     void Update()
@@ -82,8 +85,13 @@ public class GameManager : MonoBehaviour
         {
             GameOver();
         }
-        bossStage();
+        if (stageNum == 1 && isBoos == false)
+        {
+            bossStage();
+        }
     }
+    public Transform asedff;
+        GameObject test;
     void ScoreText()
     {
         float sc = (float)(Math.Truncate(ScoreValue) / 1);
@@ -99,12 +107,11 @@ public class GameManager : MonoBehaviour
 
     public void bossStage()
     {
-        if (ScoreValue >= 10000)
+        if (ScoreValue >= BossSpawnScore)
         {
-            isBoos = true;
             Debug.Log("보스 소환");
             Instantiate(Boss[stageNum - 1],BossPos.position,Boss[stageNum-1].transform.rotation);
-            isBoos = false;
+            isBoos = true;
             isStopSpawn = true;
         }
     }
@@ -117,7 +124,7 @@ public class GameManager : MonoBehaviour
                 GameObject.Find("Player").GetComponent<Player>().atkDmg += 50;
                 break;
             case 2:
-                StartCoroutine(Invincibility());
+                StartCoroutine(GameObject.Find("Player").GetComponent<Player>().Invincibility());
                 break;
             case 3:
                 CurHp += 10;
@@ -133,12 +140,7 @@ public class GameManager : MonoBehaviour
                 break;
         }
     }
-    public IEnumerator Invincibility()
-    {
-        IsInvincibility = true;
-        yield return new WaitForSeconds(3f);
-        IsInvincibility = false;
-    }
+    
 
     IEnumerator LayzerItem()
     {

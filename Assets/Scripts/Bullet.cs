@@ -8,7 +8,7 @@ public class Bullet : MonoBehaviour
 
     private Rigidbody rb;
 
-    private void Start()
+    private void Update()
     {
         rb = GetComponent<Rigidbody>();
         rb.velocity =  dir * spd;

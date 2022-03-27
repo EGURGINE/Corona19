@@ -12,6 +12,10 @@ TagManager:
   - WhiteBlood
   - RedBlood
   - Layzer
+  - PlayerBullet
+  - EnemyBullet
+  - Fire
+  - BossSkill1
   layers:
   - Default
   - TransparentFX

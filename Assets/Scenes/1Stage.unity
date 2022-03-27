@@ -10482,10 +10482,9 @@ MonoBehaviour:
   CurHp: 100
   MaxSick: 100
   CurSick: 0
-  PlayerDamage: 1
   IsInvincibility: 0
   Score: {fileID: 1994922994}
-  ScoreValue: 0
+  ScoreValue: 10000
   PlayerName: 
   ScoreSet: []
   PlayerNameSet: []
@@ -10498,6 +10497,13 @@ MonoBehaviour:
   stageNum: 1
   spawnManager: {fileID: 87512843}
   Pets: {fileID: 13867676}
+  Boss:
+  - {fileID: 5857807683730975675, guid: 9c18a13fdeb68a440874bab26b30250d, type: 3}
+  BossPos: {fileID: 847463824}
+  BossSpawnScore: 0
+  isBoos: 0
+  isStopSpawn: 0
+  asedff: {fileID: 0}
 --- !u!4 &507004851
 Transform:
   m_ObjectHideFlags: 0
@@ -10710,6 +10716,7 @@ MonoBehaviour:
     ZMin: -15
     ZMax: 15
   rotationZ: 0
+  isAttacked: 0
   emmo: {fileID: 7847284380396997625, guid: e01ab54246f2c794282c375b3b8f1834, type: 3}
   shooTime: 1
   delayTime: 0.2

@@ -34,7 +34,7 @@ public class Player : MonoBehaviour
 
     private float bulletTime;
     public float rotationZ;
-    private bool isAttacked;
+    public bool isAttacked;
 
     [Header("발사 속도")]
     public GameObject emmo;
@@ -133,6 +133,26 @@ public class Player : MonoBehaviour
         GameManager.Instance.GameOver();
     }
 
+    public IEnumerator Invincibility()
+    {
+        isAttacked = true;
+        hitShield.SetActive(true);
+        yield return new WaitForSeconds(2.5f);
+
+        hitShield.SetActive(false);
+        yield return new WaitForSeconds(0.1f);
+        hitShield.SetActive(true);
+        yield return new WaitForSeconds(0.1f);
+        hitShield.SetActive(false);
+        yield return new WaitForSeconds(0.1f);
+        hitShield.SetActive(true);
+        yield return new WaitForSeconds(0.1f);
+        hitShield.SetActive(false);
+        yield return new WaitForSeconds(0.1f);
+
+        isAttacked = false;
+    }
+
     private IEnumerator HitCoroutine()
     {
         //MainCamera.Instance.DamagedShake();
@@ -153,12 +173,5 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(0.1f);
 
         isAttacked = false;
-    }
-
-    IEnumerator Invincibility()
-    {
-        hitShield.SetActive(true);
-        yield return new WaitForSeconds(3f);
-        hitShield.SetActive(false);
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public abstract class Enemy : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected Bullet bulletObj;
     [SerializeField] protected float bulletSpd;
     [SerializeField] protected float bulletIntervar;
+    public float atkDmag;
 
     [Header("연속 곡격 속성")]
     [SerializeField] private bool isUnlimitShotcnt;
@@ -28,13 +30,15 @@ public abstract class Enemy : MonoBehaviour
 
     [Header("세균 자식들")]
     [SerializeField] private GameObject GremChild;
-    public float atkDmag;
 
     [Header("보스")]
-    [SerializeField] protected Bullet BossBulletObj;
-    [SerializeField] protected GameObject Skill_1;
-    private GameObject RanPos;
-
+    [SerializeField] protected bool IsBoss;
+    [SerializeField] private GameObject Skill_1;
+    [SerializeField] private GameObject BossShild;
+    [SerializeField] Slider hpSlider;
+    private float BossMaxHp;
+    public bool bossShild;
+    [SerializeField] private GameObject RanPos;
 
     protected Rigidbody rb;
 
@@ -44,18 +48,39 @@ public abstract class Enemy : MonoBehaviour
         if (isUnlimitShotcnt) Invoke("Attack", 1f);
         else InvokeRepeating("Attack", 1f, bulletIntervar);
 
-        Move();
+        if (IsBoss==false)
+        {
+            Move();
+        }
+        else
+        {
+            BossMaxHp = hp;
+        }
+    }
+
+    private void Update()
+    {
+        if (IsBoss)
+        {
+            hpSlider.value = hp/BossMaxHp;
+            hpSlider.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, 25, 0));
+            if (GameObject.Find("BossShild(Clone)"))
+            {
+                bossShild = true;
+            }else bossShild = false;
+        }
     }
 
     protected abstract void Attack();
-
     private void Move()
     {
-        rb.velocity = Vector3.back * spd;
+       rb.velocity = Vector3.back * spd;
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        if (bossShild) return;
+
         if (other.CompareTag("PlayerBullet"))
         {
             Destroy(other.gameObject);
@@ -124,37 +149,39 @@ public abstract class Enemy : MonoBehaviour
 
     public void BossAttack(int num)
     {
+        Debug.Log(num);
+
         switch (num)
         {
             case 1:
+                StartCoroutine(BossSkil_1());
+                break;
+            case 2:
+                if (bossShild)
+                {
+                    return;
+                }
+                Vector3 LeftPos = new Vector3(transform.position.x - 10, transform.position.y, transform.position.z);
+                Vector3 RightPos = new Vector3(transform.position.x + 10, transform.position.y, transform.position.z);
+
+                Instantiate(BossShild).transform.position = LeftPos;
+                Instantiate(BossShild).transform.position = RightPos;
+                break;
+            default:
                 firePos.LookAt(GameObject.Find("Player").transform.position);
-                Bullet bullet = Instantiate(BossBulletObj);
+                Bullet bullet = Instantiate(bulletObj);
                 bullet.transform.position = firePos.position;
                 bullet.SetBullet(atkDmag, firePos.forward, bulletSpd);
                 break;
-            case 2:
-                for (int i = 0; i < 3; i++)
-                {
-                    StartCoroutine(BossSkil_1());
-                }
-                break;
-            case 3:
-
-                break;
         }
     }
-
     IEnumerator BossSkil_1()
     {
-        for (int i = 0; i < 3; i++)
-        {
-            yield return new WaitForSeconds(1f);
-            float pX = GameObject.Find("Player").transform.position.x;
-            float pZ = GameObject.Find("Player").transform.position.z;
-            RanPos.transform.position = new Vector3(pX, GameObject.Find("Player").transform.position.y, pZ);
-            Transform pPos = RanPos.transform;
-            Instantiate(Skill_1, pPos);
-        }
+        yield return new WaitForSeconds(1f);
+        float pX = GameObject.Find("Player").transform.position.x;
+        float pZ = GameObject.Find("Player").transform.position.z;
+        RanPos.transform.position = new Vector3(pX += Random.Range(-6, 5), GameObject.Find("Player").transform.position.y, pZ += Random.Range(-6, 5));
+        Instantiate(Skill_1, RanPos.transform);
     }
     public void OnDie()
     {
@@ -164,7 +191,13 @@ public abstract class Enemy : MonoBehaviour
             case "Bacteria(Clone)": GameManager.Instance.ScoreValue += 50; Debug.Log("Bacteria"); break;
             case "Virus(Clone)": GameManager.Instance.ScoreValue += 150; Debug.Log("Virus"); break;
             case "Cancer(Clone)": GameManager.Instance.ScoreValue += 300; Debug.Log("Cancer"); break;
-
+            case "Boss(Clone)":
+                GameManager.Instance.ScoreValue += 1500;
+                GameManager.Instance.stageNum++;
+                GameManager.Instance.BossSpawnScore += 25000;
+                GameManager.Instance.isStopSpawn = false;
+                GameManager.Instance.isBoos = false;
+                break;
 
             default:
                 break;

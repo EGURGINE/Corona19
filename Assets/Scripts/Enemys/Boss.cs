@@ -6,6 +6,6 @@ public class Boss : Enemy
 {
     protected override void Attack()
     {
-        BossAttack(Random.Range(1, 4));
+        BossAttack(Random.Range(1, 30));
     }
 }
