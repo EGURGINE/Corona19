@@ -53,6 +53,7 @@ public class Player : MonoBehaviour
         #region น฿ป็
          if (Input.GetKey(KeyCode.Space) && GameManager.Instance.IsLazer == false && Time.time > bulletTime/*&&GameManager.Instance.IsEmmoIdx<GameManager.Instance.MaxEmmoIdx*/)
         {
+            SoundManager.Instance.PlaySound(Sound_Effect.SHOT);
             bulletTime = Time.time + bulletInterval;
             Bullet bullet = Instantiate(bulletObj, firePos.position, bulletObj.transform.rotation);
             bullet.SetBullet(atkDmg, Vector3.forward, bulletSpd);

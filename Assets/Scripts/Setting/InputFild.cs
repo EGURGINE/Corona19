@@ -3,21 +3,20 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class InputFild : MonoBehaviour
 {
     public InputField playerNameInput;
     private string playerName = null;
-    StreamWriter sw;
 
     private void Awake()
     {
         playerName = playerNameInput.GetComponent<InputField>().text;
     }
-
     private void Update()
     {
-        if (playerName.Length > 0 && Input.GetKeyDown(KeyCode.Return))
+        if (playerName.Length>0&& Input.GetKeyDown(KeyCode.Return))
         {
             InputName();
         }
@@ -25,9 +24,9 @@ public class InputFild : MonoBehaviour
 
     public void InputName()
     {
-        string fullpth = "Assets/Resources/Ranking";
-        sw = new StreamWriter(fullpth);        
         playerName = playerNameInput.text;
-        sw.WriteLine(playerName);
+        PlayerPrefs.SetString("CurrentPlayerName", playerName);
+        GameManager.Instance.ScoreSet(GameManager.Instance.ScoreValue, playerName);
+        SceneManager.LoadScene("RanKing");
     }
 }

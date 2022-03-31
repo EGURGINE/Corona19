@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public abstract class Enemy : MonoBehaviour
 {
@@ -101,6 +102,10 @@ public abstract class Enemy : MonoBehaviour
                 OnDie();
             }
         }
+        if (other.CompareTag("ImSick"))
+        {
+            GameManager.Instance.CurSick += atkDmag / 2;
+        }
     }
 
     public void CancerAttack()
@@ -185,18 +190,17 @@ public abstract class Enemy : MonoBehaviour
     }
     public void OnDie()
     {
+
         Instantiate(dieEffect).transform.position = transform.position;
+        SoundManager.Instance.PlaySound(Sound_Effect.EXPLOSION);
         switch (gameObject.name)
         {
             case "Bacteria(Clone)": GameManager.Instance.ScoreValue += 50; Debug.Log("Bacteria"); break;
             case "Virus(Clone)": GameManager.Instance.ScoreValue += 150; Debug.Log("Virus"); break;
             case "Cancer(Clone)": GameManager.Instance.ScoreValue += 300; Debug.Log("Cancer"); break;
             case "Boss(Clone)":
-                GameManager.Instance.ScoreValue += 1500;
-                GameManager.Instance.stageNum++;
-                GameManager.Instance.BossSpawnScore += 25000;
-                GameManager.Instance.isStopSpawn = false;
-                GameManager.Instance.isBoos = false;
+                PlayerPrefs.SetFloat("Stage_1Value", GameManager.Instance.ScoreValue);
+                SceneManager.LoadScene("2Stage");
                 break;
 
             default:

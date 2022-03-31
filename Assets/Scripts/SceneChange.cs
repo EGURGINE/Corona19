@@ -21,6 +21,7 @@ public class SceneChange : MonoBehaviour
     }
     public void StartBtn()
     {
+        SoundManager.Instance.PlaySound(Sound_Effect.PRESS_BUTTON);
         FirstMove.Stop();
         SecondMove.Play();
     }
@@ -31,7 +32,13 @@ public class SceneChange : MonoBehaviour
     }
     public void RankBtn()
     {
-
+        SoundManager.Instance.PlaySound(Sound_Effect.PRESS_BUTTON);
+        SceneManager.LoadScene("RanKing");
+    }
+    public void MainBtn()
+    {
+        SoundManager.Instance.PlaySound(Sound_Effect.PRESS_BUTTON);
+        SceneManager.LoadScene("Title");
     }
 
     public void ExitBtn()

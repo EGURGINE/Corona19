@@ -1,15 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using System;
+using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; set; }
-
-    private const float Rank_Num = 5f;
 
     [Header("플레이어 속성")]
     public Slider HpSlider, SickSlider;
@@ -22,10 +18,9 @@ public class GameManager : MonoBehaviour
     [Header("점수")]
     public Text Score;
     public float ScoreValue;
-    public String PlayerName;
-
-    public List<float> ScoreSet = new List<float>();
-    public List<string> PlayerNameSet = new List<string>();
+    [SerializeField] GameObject InputFild;
+    private float[] bestScore = new float[5];
+    private string[] bestName = new string[5];
 
     [Header("아이템 속성")]
     //public int MaxEmmoIdx;
@@ -39,8 +34,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject Pets;
 
     [Header("보스")]
+    [SerializeField] private GameObject Warring;
     [SerializeField] private GameObject[] Boss;
     [SerializeField] private Transform BossPos;
+    [SerializeField] private GameObject StageText;
     public float BossSpawnScore;
     public bool isBoos;
     public bool isStopSpawn;
@@ -48,7 +45,7 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        stageNum = 1;
+        InputFild.SetActive(false);
     }
     // Start is called before the first frame update
     void Start()
@@ -61,8 +58,13 @@ public class GameManager : MonoBehaviour
         {
             Score.text = "0";
         }
+        else if (stageNum==2)
+        {
+            ScoreValue = PlayerPrefs.GetFloat("Stage_1Value");
+        }
         ReadEnemyData(stageNum);
         Lazers.SetActive(false);
+        StartCoroutine(StageTextCnt());
     }
 
     private void FixedUpdate()
@@ -91,7 +93,18 @@ public class GameManager : MonoBehaviour
         }
     }
     public Transform asedff;
-        GameObject test;
+
+    IEnumerator StageTextCnt()
+    {
+        isStopSpawn = true;
+        StageText.SetActive(false);
+        yield return new WaitForSeconds(0.5f);
+        StageText.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        StageText.SetActive(false);
+        isStopSpawn = false;
+
+    }
     void ScoreText()
     {
         float sc = (float)(Math.Truncate(ScoreValue) / 1);
@@ -109,13 +122,73 @@ public class GameManager : MonoBehaviour
     {
         if (ScoreValue >= BossSpawnScore)
         {
-            Debug.Log("보스 소환");
-            Instantiate(Boss[stageNum - 1],BossPos.position,Boss[stageNum-1].transform.rotation);
+            StartCoroutine(BossWarring());
+            //Debug.Log("보스 소환");
+            //Instantiate(Boss[stageNum - 1],BossPos.position,Boss[stageNum-1].transform.rotation);
             isBoos = true;
             isStopSpawn = true;
         }
     }
+    IEnumerator BossWarring()
+    {
+        Warring.SetActive(true);
+        yield return new WaitForSeconds(0.3f);
+        Warring.SetActive(false);
+        yield return new WaitForSeconds(0.3f);
+        Warring.SetActive(true);
+        yield return new WaitForSeconds(0.3f);
+        Warring.SetActive(false);
+        yield return new WaitForSeconds(0.3f);
+        Warring.SetActive(true);
+        yield return new WaitForSeconds(0.3f);
+        Warring.SetActive(false); Debug.Log("보스 소환");
+        Instantiate(Boss[stageNum - 1], BossPos.position, Boss[stageNum - 1].transform.rotation);
+    }
 
+    public void ScoreSet(float currentScore,string currentName)
+    {
+        PlayerPrefs.SetString("CurrentPlayerName", currentName);
+        PlayerPrefs.SetFloat("CurrentPlayerScore", currentScore);
+        float tmpScore = 0f;
+        string tmpName = "";
+
+        for (int i = 0; i < 5; i++)
+        {
+            bestScore[i] = PlayerPrefs.GetFloat(i + "BestScore");
+            bestName[i] = PlayerPrefs.GetString(i + "BestName");
+
+            while (bestScore[i] < currentScore)
+            {
+                tmpScore = bestScore[i];
+                tmpName = bestName[i];
+                bestScore[i] = currentScore;
+                bestName[i] = currentName;
+
+                if (bestScore[i]==0)
+                {
+                    bestScore[i] = 0;
+                }
+                if (bestName[i] == null)
+                {
+                    bestName[i] = "Null";
+                }
+
+                PlayerPrefs.SetFloat(i + "BestScore", currentScore);
+                PlayerPrefs.SetString(i.ToString() + "BestName", currentName);
+
+                currentScore = tmpScore;
+                currentName = tmpName;
+            }
+        }
+
+        for (int i = 0; i < 5; i++)
+        {
+            PlayerPrefs.SetFloat(i + "BestScore", bestScore[i]);
+            PlayerPrefs.SetString(i.ToString() + "BestName", bestName[i]);
+
+        }
+
+    }
     public void Items(int num)
     {
         switch (num)
@@ -169,14 +242,7 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
-        if (true)
-        {
-
-        }
-
-
-        SceneManager.LoadScene(2);
         // 랭킹창 띄우기
+        InputFild.SetActive(true);
     }
-
 }

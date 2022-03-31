@@ -18,9 +18,15 @@ public class WhiteBlood : MonoBehaviour
     {
         if (Hp<=0)
         {
-            Instantiate(items[Random.Range(0,6)], transform.position, Quaternion.Euler(0, 0, 0));
-            Destroy(gameObject);
+            Die();
         }
+    }
+    private void Die()
+    {
+        Instantiate(items[Random.Range(0, 6)]
+        ,GameObject.Find("Spawner").GetComponent<Spawner>().pos[Random.Range(0, 5)].transform.position
+        , Quaternion.Euler(0, 0, 0));
+        Destroy(gameObject);
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -28,6 +34,10 @@ public class WhiteBlood : MonoBehaviour
         {
             Destroy(other.gameObject);
             Hp -= other.GetComponent<Bullet>().dmg;
+        }
+        if (other.CompareTag("Player"))
+        {
+            Die();
         }
     }
 }

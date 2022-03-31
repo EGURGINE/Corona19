@@ -31,7 +31,7 @@ public class RedBlood : MonoBehaviour
         }
         else if (other.CompareTag("Player"))
         {
-            Die();
+            GameManager.Instance.CurHp += 10;
         }
     }
 }
